@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Gaming Mouse">
+  <rect width="800" height="600" rx="32" fill="#111827"/>
+  <ellipse cx="400" cy="280" rx="135" ry="185" fill="#ec4899" opacity="0.9"/>
+  <path d="M400 120v320" stroke="#fce7f3" stroke-width="10"/>
+  <circle cx="400" cy="205" r="10" fill="#fce7f3"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Gaming Mouse</text>
+</svg>

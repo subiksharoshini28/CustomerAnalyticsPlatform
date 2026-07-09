@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Classic Leather Belt">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1f2937"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="32" fill="url(#bg)"/>
+  <path d="M180 320h420c55 0 100-18 150-55" fill="none" stroke="#7c2d12" stroke-width="50" stroke-linecap="round"/>
+  <path d="M180 320h420c55 0 100-18 150-55" fill="none" stroke="#a16207" stroke-width="18" stroke-linecap="round" opacity="0.5"/>
+  <rect x="570" y="220" width="100" height="190" rx="16" fill="#d4af37" stroke="#fef08a" stroke-width="8"/>
+  <rect x="605" y="255" width="30" height="120" rx="12" fill="#854d0e"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Classic Leather Belt</text>
+</svg>

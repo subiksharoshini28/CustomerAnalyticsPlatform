@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Kids Building Blocks">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c2d12"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="32" fill="url(#bg)"/>
+  <rect x="210" y="260" width="120" height="120" rx="18" fill="#f43f5e"/>
+  <rect x="350" y="180" width="120" height="120" rx="18" fill="#f59e0b"/>
+  <rect x="490" y="260" width="120" height="120" rx="18" fill="#22c55e"/>
+  <rect x="280" y="150" width="90" height="90" rx="14" fill="#60a5fa"/>
+  <rect x="435" y="110" width="90" height="90" rx="14" fill="#a78bfa"/>
+  <circle cx="270" cy="310" r="14" fill="#fff7ed"/>
+  <circle cx="410" cy="230" r="14" fill="#fff7ed"/>
+  <circle cx="550" cy="310" r="14" fill="#fff7ed"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Kids Building Blocks</text>
+</svg>

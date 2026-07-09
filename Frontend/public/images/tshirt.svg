@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Organic Cotton T-Shirt">
+  <rect width="800" height="600" rx="32" fill="#1f2937"/>
+  <path d="M250 165l65-48 85 36 85-36 65 48-45 70v200H295V235z" fill="#34d399" stroke="#d1fae5" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M335 167c10 34 22 52 65 52s55-18 65-52" fill="none" stroke="#064e3b" stroke-width="10" stroke-linecap="round"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Organic Cotton T-Shirt</text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Smart Home Speaker">
+  <rect width="800" height="600" rx="32" fill="#1e1b4b"/>
+  <circle cx="400" cy="280" r="155" fill="#8b5cf6" opacity="0.2"/>
+  <circle cx="400" cy="280" r="95" fill="#111827" stroke="#c4b5fd" stroke-width="12"/>
+  <circle cx="400" cy="280" r="48" fill="#a78bfa"/>
+  <path d="M270 185c50-40 110-60 130-60" fill="none" stroke="#c4b5fd" stroke-width="10" stroke-linecap="round"/>
+  <path d="M530 185c-50-40-110-60-130-60" fill="none" stroke="#c4b5fd" stroke-width="10" stroke-linecap="round"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Smart Home Speaker</text>
+</svg>

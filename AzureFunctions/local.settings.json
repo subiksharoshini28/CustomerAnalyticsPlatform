@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "EventHubConnectionString": "Endpoint=sb://your-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=your-key",
+    "EventHubName": "customer-events",
+    "SqlConnectionString": "Server=tcp:your-server.database.windows.net,1433;Initial Catalog=CustomerAnalyticsDb;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
+}

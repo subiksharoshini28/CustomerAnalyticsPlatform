@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Travel Pillow">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#134e4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="32" fill="url(#bg)"/>
+  <path d="M280 250c0-70 55-126 120-126h0c65 0 120 56 120 126s-55 126-120 126h0c-65 0-120-56-120-126z" fill="#14b8a6" stroke="#ccfbf1" stroke-width="10"/>
+  <path d="M320 250c0-42 29-76 80-76 51 0 80 34 80 76s-29 76-80 76c-51 0-80-34-80-76z" fill="#0f766e" opacity="0.55"/>
+  <path d="M430 210c35 20 60 54 62 92" fill="none" stroke="#ccfbf1" stroke-width="12" stroke-linecap="round"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f0fdfa">Travel Pillow</text>
+</svg>

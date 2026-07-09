@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Coffee Maker Deluxe">
+  <rect width="800" height="600" rx="32" fill="#3f2a1d"/>
+  <rect x="250" y="120" width="240" height="290" rx="26" fill="#f5f5f4" stroke="#d6d3d1" stroke-width="12"/>
+  <rect x="285" y="150" width="170" height="80" rx="14" fill="#1f2937"/>
+  <rect x="310" y="255" width="120" height="110" rx="16" fill="#d97706" opacity="0.9"/>
+  <path d="M490 195h32c28 0 50 22 50 50s-22 50-50 50h-32" fill="none" stroke="#f5f5f4" stroke-width="18" stroke-linecap="round"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#fff7ed">Coffee Maker Deluxe</text>
+</svg>

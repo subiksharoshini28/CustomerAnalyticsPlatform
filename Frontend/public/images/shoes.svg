@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Running Shoes">
+  <rect width="800" height="600" rx="32" fill="#1e1b4b"/>
+  <path d="M170 360c90-20 170-100 240-190l105 90c20 17 49 22 79 14l26 83c-114 43-265 63-450 59z" fill="#f472b6" stroke="#fce7f3" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M280 282l95 90" stroke="#fce7f3" stroke-width="12" stroke-linecap="round"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Running Shoes</text>
+</svg>

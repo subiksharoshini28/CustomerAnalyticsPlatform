@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Smart Watch Pro">
+  <rect width="800" height="600" rx="32" fill="#0f172a"/>
+  <rect x="285" y="70" width="230" height="88" rx="28" fill="#1e293b"/>
+  <rect x="285" y="442" width="230" height="88" rx="28" fill="#1e293b"/>
+  <rect x="260" y="140" width="280" height="320" rx="70" fill="#111827" stroke="#38bdf8" stroke-width="10"/>
+  <circle cx="400" cy="300" r="92" fill="#0ea5e9" opacity="0.25"/>
+  <path d="M400 234v72l52 32" fill="none" stroke="#e0f2fe" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="400" y="540" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Smart Watch Pro</text>
+</svg>

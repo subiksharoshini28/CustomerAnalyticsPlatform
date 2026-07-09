@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Desk Lamp">
+  <rect width="800" height="600" rx="32" fill="#312e81"/>
+  <path d="M330 180h140l-40-80h-60z" fill="#fde68a"/>
+  <path d="M400 180v120" stroke="#f8fafc" stroke-width="18" stroke-linecap="round"/>
+  <path d="M360 300h80l40 120H320z" fill="#f59e0b"/>
+  <rect x="290" y="420" width="220" height="28" rx="14" fill="#f8fafc"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#f8fafc">Desk Lamp</text>
+</svg>

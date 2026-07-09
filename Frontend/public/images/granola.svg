@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Protein Granola Pack">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#422006"/>
+      <stop offset="100%" stop-color="#7c2d12"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="32" fill="url(#bg)"/>
+  <rect x="260" y="120" width="280" height="340" rx="34" fill="#fbbf24" stroke="#fef3c7" stroke-width="10"/>
+  <rect x="315" y="155" width="170" height="90" rx="20" fill="#78350f" opacity="0.85"/>
+  <circle cx="340" cy="300" r="26" fill="#fff7ed"/>
+  <circle cx="400" cy="330" r="30" fill="#fde68a"/>
+  <circle cx="465" cy="285" r="24" fill="#f97316"/>
+  <path d="M310 390c40-22 80-28 90-28s50 6 90 28" fill="none" stroke="#78350f" stroke-width="12" stroke-linecap="round"/>
+  <text x="400" y="520" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#fff7ed">Protein Granola Pack</text>
+</svg>
