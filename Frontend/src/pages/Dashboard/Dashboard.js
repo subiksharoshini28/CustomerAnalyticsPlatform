@@ -6,7 +6,6 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
   List,
   ListItem,
   ListItemText,
@@ -33,7 +32,7 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
-import { Line, Doughnut, Bar } from 'react-chartjs-2';
+import { Line, Doughnut } from 'react-chartjs-2';
 import { dashboardAPI } from '../../services/api';
 import { formatINR } from '../../utils/currency';
 

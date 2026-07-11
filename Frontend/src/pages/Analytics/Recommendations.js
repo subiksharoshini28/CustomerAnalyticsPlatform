@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Paper,
   Typography,
   Box,
   Grid,
@@ -14,7 +13,6 @@ import {
   Rating,
   Skeleton,
 } from '@mui/material';
-import { Star as StarIcon } from '@mui/icons-material';
 import { dashboardAPI } from '../../services/api';
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';

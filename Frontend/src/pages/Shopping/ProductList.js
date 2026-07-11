@@ -27,7 +27,7 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { addToCart } = useCart();
   const navigate = useNavigate();
 

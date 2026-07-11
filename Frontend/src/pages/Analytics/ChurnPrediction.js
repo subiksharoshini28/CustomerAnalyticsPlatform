@@ -24,7 +24,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import { analyticsAPI } from '../../services/api';
 
 ChartJS.register(

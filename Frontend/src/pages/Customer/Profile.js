@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { Person as PersonIcon } from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
-import api from '../../services/api';
 
 const Profile = () => {
   const { user } = useAuth();
