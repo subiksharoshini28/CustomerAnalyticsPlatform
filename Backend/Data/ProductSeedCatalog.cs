@@ -90,7 +90,7 @@ public static class ProductSeedCatalog
             Description = "Pocket-friendly true wireless earbuds with crisp sound and ANC.",
             Price = 5999.00m,
             Category = "Electronics",
-            ImageUrl = "https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=400&h=400&fit=crop",
+            ImageUrl = "https://images.unsplash.com/photo-1600375104627-c94c416deefa?w=400&h=400&fit=crop",
             StockQuantity = 120,
             IsActive = true
         },
@@ -156,7 +156,7 @@ public static class ProductSeedCatalog
             Description = "Minimal LED desk lamp with adjustable brightness and warm light modes.",
             Price = 1899.00m,
             Category = "Home",
-            ImageUrl = "https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=400&h=400&fit=crop",
+            ImageUrl = "https://images.unsplash.com/photo-1774647002345-5301814a66bb?w=400&h=400&fit=crop",
             StockQuantity = 95,
             IsActive = true
         },
@@ -266,7 +266,7 @@ public static class ProductSeedCatalog
             Description = "Colorful building block set for creative play and learning.",
             Price = 1799.00m,
             Category = "Toys",
-            ImageUrl = "https://images.unsplash.com/photo-1587654780291-39c9404d7dd0?w=400&h=400&fit=crop",
+            ImageUrl = "https://images.unsplash.com/photo-1752322069850-f92b5ce0e961?w=400&h=400&fit=crop",
             StockQuantity = 200,
             IsActive = true
         }
