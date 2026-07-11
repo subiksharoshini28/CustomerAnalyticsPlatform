@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = (process.env.REACT_APP_API_URL || 'https://customeranalyticsapi2026.azurewebsites.net/api').replace(/\/$/, '');
+const API_BASE_URL = (process.env.REACT_APP_API_URL || 'https://customeranalyticsapi2026-bqe3ged7fva4emej.centralindia-01.azurewebsites.net/api').replace(/\/$/, '');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -27,6 +27,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log(error);
+    console.log(error.response);
+    console.log(error.request);
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       window.location.href = '/login';
