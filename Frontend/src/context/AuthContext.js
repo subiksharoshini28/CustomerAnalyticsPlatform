@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await api.post('/auth/register', userData);
+      console.log('Registration Response:', response.data);
       const { token: newToken, user: newUser } = response.data;
       
       localStorage.setItem('token', newToken);
@@ -57,9 +58,16 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true };
     } catch (error) {
+      console.error('Registration Error:', error);
+      console.error('Response:', error.response);
+      console.error('Data:', error.response?.data);
       return { 
         success: false, 
-        message: error.response?.data?.message || 'Registration failed' 
+        message:
+          error.response?.data?.message ||
+          (typeof error.response?.data === 'string' ? error.response.data : null) ||
+          JSON.stringify(error.response?.data) ||
+          error.message
       };
     }
   };

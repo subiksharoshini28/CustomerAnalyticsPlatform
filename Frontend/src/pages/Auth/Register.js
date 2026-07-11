@@ -45,6 +45,7 @@ const Register = () => {
     setLoading(true);
 
     const { confirmPassword, ...registerData } = formData;
+    console.log('Register Payload', registerData);
     const result = await register(registerData);
     
     if (result.success) {
