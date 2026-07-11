@@ -24,7 +24,8 @@ import {
   Payment as PaymentIcon,
   CheckCircle as CheckIcon,
   CreditCard as CardIcon,
-  AccountBalance as BankIcon,
+  QrCode as UpiIcon,
+  Money as CashIcon,
 } from '@mui/icons-material';
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';
@@ -43,7 +44,7 @@ const Checkout = () => {
     city: '',
     state: '',
     zipCode: '',
-    paymentMethod: 'credit_card',
+    paymentMethod: 'upi',
     promoCode: '',
   });
 
@@ -205,7 +206,8 @@ const Checkout = () => {
                     {[
                       { value: 'credit_card', label: 'Credit Card', icon: <CardIcon />, desc: 'Pay with Visa, Mastercard, or Amex' },
                       { value: 'debit_card', label: 'Debit Card', icon: <CardIcon />, desc: 'Pay directly from your bank account' },
-                      { value: 'paypal', label: 'PayPal', icon: <BankIcon />, desc: 'Pay securely with PayPal' },
+                      { value: 'upi', label: 'UPI Payment', icon: <UpiIcon />, desc: 'Pay via Google Pay, PhonePe, or Paytm UPI' },
+                      { value: 'cod', label: 'Cash on Delivery', icon: <CashIcon />, desc: 'Pay when your order arrives at your door' },
                     ].map((option) => (
                       <Box
                         key={option.value}

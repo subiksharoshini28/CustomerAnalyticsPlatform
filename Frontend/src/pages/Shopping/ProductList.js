@@ -18,10 +18,13 @@ import {
   Skeleton,
   InputAdornment,
   Paper,
+  IconButton,
 } from '@mui/material';
 import {
   Search as SearchIcon,
   ShoppingCart as CartIcon,
+  FavoriteBorder as WishlistOutlineIcon,
+  Favorite as WishlistFilledIcon,
   ViewModule as GridIcon,
 } from '@mui/icons-material';
 import { productsAPI } from '../../services/api';
@@ -70,6 +73,25 @@ const ProductList = () => {
     };
     fetchCategories();
   }, []);
+
+  const [wishlist, setWishlist] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('wishlist')) || []; } catch { return []; }
+  });
+
+  const toggleWishlist = (product, e) => {
+    e.stopPropagation();
+    const exists = wishlist.find((w) => w.id === product.id);
+    let updated;
+    if (exists) {
+      updated = wishlist.filter((w) => w.id !== product.id);
+    } else {
+      updated = [...wishlist, { id: product.id, name: product.name, price: product.price, imageUrl: getProductImage(product.id, product.imageUrl) }];
+    }
+    setWishlist(updated);
+    localStorage.setItem('wishlist', JSON.stringify(updated));
+  };
+
+  const isWishlisted = (id) => wishlist.some((w) => w.id === id);
 
   const handleSearch = (e) => {
     setFilters((prev) => ({ ...prev, searchTerm: e.target.value }));
@@ -211,9 +233,21 @@ const ProductList = () => {
                   <Typography variant="body2" sx={{ color: '#64748b', mb: 1.5, fontSize: '0.8rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     {product.description}
                   </Typography>
-                  <Typography variant="h6" sx={{ fontWeight: 700, color: '#2563eb' }}>
-                    {formatINR(product.price)}
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, color: '#2563eb' }}>
+                      {formatINR(product.price)}
+                    </Typography>
+                    <IconButton
+                      size="small"
+                      onClick={(e) => toggleWishlist(product, e)}
+                      sx={{
+                        color: isWishlisted(product.id) ? '#ef4444' : '#94a3b8',
+                        '&:hover': { color: '#ef4444', bgcolor: '#fef2f2' },
+                      }}
+                    >
+                      {isWishlisted(product.id) ? <WishlistFilledIcon fontSize="small" /> : <WishlistOutlineIcon fontSize="small" />}
+                    </IconButton>
+                  </Box>
                 </CardContent>
                 <CardActions sx={{ p: 2.5, pt: 0 }}>
                   <Button

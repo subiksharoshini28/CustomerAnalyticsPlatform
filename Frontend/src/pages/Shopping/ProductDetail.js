@@ -25,15 +25,26 @@ import {
   Remove as RemoveIcon,
   NavigateNext as NavigateNextIcon,
   Star as StarIcon,
+  StarBorder as StarBorderIcon,
   LocalShipping as ShippingIcon,
   VerifiedUser as WarrantyIcon,
   Replay as ReturnIcon,
+  ThumbUp as ThumbUpIcon,
 } from '@mui/icons-material';
 import { productsAPI } from '../../services/api';
 import { useCart } from '../../context/CartContext';
 import { eventsAPI } from '../../services/api';
 import { formatINR } from '../../utils/currency';
 import { getProductImage, handleImageError } from '../../utils/productImages';
+
+const productReviews = [
+  { id: 1, name: 'Priya Sharma', rating: 5, date: '2026-06-15', title: 'Excellent quality!', comment: 'Really impressed with the build quality and performance. Would definitely recommend to anyone looking for a reliable product.', helpful: 24, avatar: 'PS' },
+  { id: 2, name: 'Rahul Verma', rating: 4, date: '2026-06-10', title: 'Good value for money', comment: 'Works as described. The only minor issue is the packaging could be better, but the product itself is solid.', helpful: 18, avatar: 'RV' },
+  { id: 3, name: 'Ananya Patel', rating: 5, date: '2026-05-28', title: 'Perfect purchase!', comment: 'I have been using this for about a month now and it works flawlessly. The design is sleek and modern. Very happy with my purchase.', helpful: 31, avatar: 'AP' },
+  { id: 4, name: 'Vikram Singh', rating: 4, date: '2026-05-20', title: 'Solid product', comment: 'Delivery was fast and the product matches the description. It does everything I needed. Would rate 5 stars if the manual was more detailed.', helpful: 12, avatar: 'VS' },
+  { id: 5, name: 'Meera Nair', rating: 5, date: '2026-05-12', title: 'Highly recommended', comment: 'This is my second purchase from this brand and they never disappoint. Amazing quality at this price point. The customer support was also very responsive.', helpful: 27, avatar: 'MN' },
+  { id: 6, name: 'Arjun Reddy', rating: 3, date: '2026-04-30', title: 'Decent but room for improvement', comment: 'It works fine for basic use. However, I expected a bit more in terms of features at this price. Still, it gets the job done.', helpful: 9, avatar: 'AR' },
+];
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -224,6 +235,84 @@ const ProductDetail = () => {
           </Box>
         </Grid>
       </Grid>
+
+      {/* Product Description */}
+      <Paper elevation={0} sx={{ p: 4, mt: 4, border: '1px solid #e2e8f0', borderRadius: 3 }}>
+        <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+          Product Description
+        </Typography>
+        <Divider sx={{ mb: 2.5 }} />
+        <Typography variant="body1" sx={{ color: '#475569', lineHeight: 1.8, mb: 2 }}>
+          {product.description}
+        </Typography>
+        <Typography variant="body1" sx={{ color: '#475569', lineHeight: 1.8 }}>
+          This premium product is designed with quality materials and meticulous attention to detail.
+          Whether you're looking for everyday reliability or a special gift, this item delivers on both
+          style and performance. Built to last with durable construction and a modern aesthetic that
+          fits seamlessly into your lifestyle.
+        </Typography>
+        <Box sx={{ mt: 3, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2 }}>
+          {[
+            { label: 'Premium Material', desc: 'Crafted from high-quality components' },
+            { label: 'Fast Delivery', desc: 'Free shipping on all orders' },
+            { label: '1 Year Warranty', desc: 'Full manufacturer warranty included' },
+            { label: 'Easy Returns', desc: '30-day hassle-free return policy' },
+          ].map((feature, i) => (
+            <Box key={i} sx={{ p: 2, bgcolor: '#f8fafc', borderRadius: 2, border: '1px solid #f1f5f9' }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#0f172a', mb: 0.3 }}>{feature.label}</Typography>
+              <Typography variant="caption" sx={{ color: '#64748b' }}>{feature.desc}</Typography>
+            </Box>
+          ))}
+        </Box>
+      </Paper>
+
+      {/* Customer Reviews */}
+      <Paper elevation={0} sx={{ p: 4, mt: 3, border: '1px solid #e2e8f0', borderRadius: 3 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Typography variant="h5" sx={{ fontWeight: 700 }}>
+            Customer Reviews
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', gap: 0.25 }}>
+              {[1, 2, 3, 4, 5].map((s) => (
+                <StarIcon key={s} sx={{ fontSize: 20, color: s <= 4 ? '#f59e0b' : '#e2e8f0' }} />
+              ))}
+            </Box>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>4.0</Typography>
+            <Typography variant="body2" sx={{ color: '#64748b' }}>({productReviews.length} reviews)</Typography>
+          </Box>
+        </Box>
+        <Divider sx={{ mb: 3 }} />
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+          {productReviews.map((review) => (
+            <Box key={review.id} sx={{ p: 2.5, bgcolor: '#f8fafc', borderRadius: 2, border: '1px solid #f1f5f9' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5 }}>
+                <Avatar sx={{ width: 36, height: 36, bgcolor: '#2563eb', fontSize: '0.8rem', fontWeight: 600 }}>
+                  {review.avatar}
+                </Avatar>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#0f172a' }}>{review.name}</Typography>
+                  <Typography variant="caption" sx={{ color: '#94a3b8' }}>{new Date(review.date).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', gap: 0.25 }}>
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    s <= review.rating ?
+                      <StarIcon key={s} sx={{ fontSize: 16, color: '#f59e0b' }} /> :
+                      <StarBorderIcon key={s} sx={{ fontSize: 16, color: '#e2e8f0' }} />
+                  ))}
+                </Box>
+              </Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#0f172a', mb: 0.5 }}>{review.title}</Typography>
+              <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.6, mb: 1.5 }}>{review.comment}</Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#94a3b8' }}>
+                <ThumbUpIcon sx={{ fontSize: 14 }} />
+                <Typography variant="caption">{review.helpful} found this helpful</Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Paper>
 
       {/* Recommendations */}
       {recommendations.length > 0 && (
