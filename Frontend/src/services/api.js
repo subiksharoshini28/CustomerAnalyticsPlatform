@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const API_ROOT_URL = process.env.REACT_APP_API_URL || 'https://customeranalyticsapi2026.azurewebsites.net';
-const API_BASE_URL = `${API_ROOT_URL.replace(/\/$/, '')}/api`;
+const API_BASE_URL = (process.env.REACT_APP_API_URL || 'https://customeranalyticsapi2026.azurewebsites.net/api').replace(/\/$/, '');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -38,9 +37,9 @@ api.interceptors.response.use(
 
 // Auth API
 export const authAPI = {
-  login: (credentials) => api.post('/auth/login', credentials),
-  register: (userData) => api.post('/auth/register', userData),
-  getProfile: () => api.get('/auth/profile'),
+  login: (credentials) => api.post('/Auth/login', credentials),
+  register: (userData) => api.post('/Auth/register', userData),
+  getProfile: () => api.get('/Auth/profile'),
 };
 
 // Products API

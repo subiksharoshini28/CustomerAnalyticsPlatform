@@ -86,14 +86,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        // Allow the React dev server and common local aliases.
+        // Allow the Azure Static Web App frontend.
         policy.WithOrigins(
-                    "http://localhost:3000",
-                    "http://localhost:3001",
-                    "http://127.0.0.1:3000",
-                    "http://127.0.0.1:3001",
-                    "http://0.0.0.0:3000",
-                    "http://0.0.0.0:3001")
+                    "https://happy-flower-076267500.7.azurestaticapps.net")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
