@@ -169,7 +169,7 @@ const Dashboard = () => {
     labels: channelPerformance.map((c) => c.channel),
     datasets: [{
       data: channelPerformance.map((c) => c.interactions),
-      backgroundColor: ['#2563eb', '#7c3aed', '#06b6d4', '#10b981', '#f59e0b'],
+      backgroundColor: ['#2563eb', '#7c3aed', '#06b6d4', '#e91e63', '#f59e0b'],
       borderWidth: 0,
       hoverOffset: 6,
     }],
@@ -191,7 +191,7 @@ const Dashboard = () => {
           <StatCard title="Total Customers" value={stats.totalCustomers?.toLocaleString() || '0'} icon={<PeopleIcon />} color="#2563eb" gradient="linear-gradient(135deg, #2563eb, #3b82f6)" trend={5.2} />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <StatCard title="Daily Active Users" value={stats.dailyActiveUsers?.toLocaleString() || '0'} icon={<TrendingUpIcon />} color="#10b981" gradient="linear-gradient(135deg, #10b981, #34d399)" trend={3.1} />
+          <StatCard title="Daily Active Users" value={stats.dailyActiveUsers?.toLocaleString() || '0'} icon={<TrendingUpIcon />} color="#e91e63" gradient="linear-gradient(135deg, #e91e63, #f06292)" trend={3.1} />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard title="Total Revenue" value={formatINR(stats.totalRevenue)} icon={<MoneyIcon />} color="#f59e0b" gradient="linear-gradient(135deg, #f59e0b, #fbbf24)" trend={12.5} />

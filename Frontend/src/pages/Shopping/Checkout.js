@@ -103,7 +103,7 @@ const Checkout = () => {
                   sx={{
                     width: 32,
                     height: 32,
-                    bgcolor: completed ? '#10b981' : active ? '#2563eb' : '#e2e8f0',
+                    bgcolor: completed ? '#e91e63' : active ? '#2563eb' : '#e2e8f0',
                     color: completed || active ? '#fff' : '#94a3b8',
                     fontSize: '0.85rem',
                     fontWeight: 600,
@@ -266,7 +266,7 @@ const Checkout = () => {
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="body2" sx={{ color: '#64748b' }}>Shipping</Typography>
-                <Typography variant="body2" sx={{ fontWeight: 600, color: '#10b981' }}>Free</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600, color: '#e91e63' }}>Free</Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="body2" sx={{ color: '#64748b' }}>Tax (8%)</Typography>
@@ -274,8 +274,8 @@ const Checkout = () => {
               </Box>
               {discount > 0 && (
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2" sx={{ color: '#10b981' }}>Discount (SAVE10)</Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#10b981' }}>-{formatINR(discount)}</Typography>
+                  <Typography variant="body2" sx={{ color: '#e91e63' }}>Discount (SAVE10)</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#e91e63' }}>-{formatINR(discount)}</Typography>
                 </Box>
               )}
 

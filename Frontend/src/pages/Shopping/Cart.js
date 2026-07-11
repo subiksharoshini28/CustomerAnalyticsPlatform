@@ -173,7 +173,7 @@ const Cart = () => {
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
               <Typography variant="body2" sx={{ color: '#64748b' }}>Shipping</Typography>
-              <Typography variant="body2" sx={{ fontWeight: 600, color: '#10b981' }}>Free</Typography>
+              <Typography variant="body2" sx={{ fontWeight: 600, color: '#e91e63' }}>Free</Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
               <Typography variant="body2" sx={{ color: '#64748b' }}>Tax (8%)</Typography>

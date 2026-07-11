@@ -40,7 +40,7 @@ const OrderHistory = () => {
       case 'Pending': return { bg: '#fef3c7', color: '#d97706' };
       case 'Confirmed': return { bg: '#dbeafe', color: '#2563eb' };
       case 'Shipped': return { bg: '#e0e7ff', color: '#4f46e5' };
-      case 'Delivered': return { bg: '#d1fae5', color: '#059669' };
+      case 'Delivered': return { bg: '#fce4ec', color: '#c2185b' };
       case 'Cancelled': return { bg: '#fee2e2', color: '#dc2626' };
       default: return { bg: '#f1f5f9', color: '#64748b' };
     }

@@ -32,7 +32,7 @@ const OrderConfirmation = () => {
             width: 80,
             height: 80,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #10b981, #34d399)',
+            background: 'linear-gradient(135deg, #e91e63, #f06292)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

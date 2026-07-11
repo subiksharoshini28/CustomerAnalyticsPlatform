@@ -44,7 +44,7 @@ const theme = createTheme({
       primary: '#0f172a',
       secondary: '#64748b',
     },
-    success: { main: '#10b981', light: '#34d399', dark: '#059669' },
+    success: { main: '#e91e63', light: '#f06292', dark: '#c2185b' },
     warning: { main: '#f59e0b', light: '#fbbf24', dark: '#d97706' },
     error: { main: '#ef4444', light: '#f87171', dark: '#dc2626' },
     info: { main: '#06b6d4', light: '#22d3ee', dark: '#0891b2' },

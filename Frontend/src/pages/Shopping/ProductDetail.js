@@ -194,15 +194,15 @@ const ProductDetail = () => {
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                <ShippingIcon sx={{ fontSize: 18, color: '#10b981' }} />
+                <ShippingIcon sx={{ fontSize: 18, color: '#e91e63' }} />
                 <Typography variant="body2" sx={{ color: '#475569' }}>Free Shipping</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                <ReturnIcon sx={{ fontSize: 18, color: '#10b981' }} />
+                <ReturnIcon sx={{ fontSize: 18, color: '#e91e63' }} />
                 <Typography variant="body2" sx={{ color: '#475569' }}>30-Day Returns</Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                <WarrantyIcon sx={{ fontSize: 18, color: '#10b981' }} />
+                <WarrantyIcon sx={{ fontSize: 18, color: '#e91e63' }} />
                 <Typography variant="body2" sx={{ color: '#475569' }}>1 Year Warranty</Typography>
               </Box>
             </Box>
