@@ -27,10 +27,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.log(error);
-    console.log(error.response);
-    console.log(error.request);
-    if (error.response?.status === 401) {
+    console.log('API Error:', error.message);
+    if (error.response) {
+      console.log('Status:', error.response.status, 'Data:', error.response.data);
+    }
+    const url = error.config?.url || '';
+    const isAuthRequest = url.includes('/auth/login') || url.includes('/auth/register');
+    if (error.response?.status === 401 && !isAuthRequest) {
       localStorage.removeItem('token');
       window.location.href = '/login';
     }

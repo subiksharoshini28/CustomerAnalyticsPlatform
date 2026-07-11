@@ -52,14 +52,18 @@ const Register = () => {
 
     setLoading(true);
     const { confirmPassword, ...registerData } = formData;
-    const result = await register(registerData);
-
-    if (result.success) {
-      navigate('/dashboard');
-    } else {
-      setError(result.message);
+    try {
+      const result = await register(registerData);
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setError(result.message);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
