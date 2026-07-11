@@ -19,6 +19,8 @@ import {
   InputAdornment,
   Paper,
   IconButton,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import {
   Search as SearchIcon,
@@ -77,6 +79,7 @@ const ProductList = () => {
   const [wishlist, setWishlist] = useState(() => {
     try { return JSON.parse(localStorage.getItem('wishlist')) || []; } catch { return []; }
   });
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const toggleWishlist = (product, e) => {
     e.stopPropagation();
@@ -84,8 +87,10 @@ const ProductList = () => {
     let updated;
     if (exists) {
       updated = wishlist.filter((w) => w.id !== product.id);
+      setSnackbar({ open: true, message: `${product.name} removed from wishlist`, severity: 'info' });
     } else {
       updated = [...wishlist, { id: product.id, name: product.name, price: product.price, imageUrl: getProductImage(product.id, product.imageUrl) }];
+      setSnackbar({ open: true, message: `${product.name} added to wishlist`, severity: 'success' });
     }
     setWishlist(updated);
     localStorage.setItem('wishlist', JSON.stringify(updated));
@@ -104,10 +109,28 @@ const ProductList = () => {
   const handleAddToCart = async (productId, e) => {
     e.stopPropagation();
     await addToCart(productId);
+    const product = products.find((p) => p.id === productId);
+    setSnackbar({ open: true, message: `${product?.name || 'Product'} added to cart`, severity: 'success' });
   };
 
   return (
     <Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: '100%', borderRadius: 2 }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
       <Box sx={{ mb: 3.5 }}>
         <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
           Products

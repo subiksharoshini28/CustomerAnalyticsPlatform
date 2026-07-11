@@ -16,6 +16,7 @@ import {
   Breadcrumbs,
   Link,
   IconButton,
+  Snackbar,
 } from '@mui/material';
 import {
   ShoppingCart as CartIcon,
@@ -55,6 +56,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -80,11 +82,18 @@ const ProductDetail = () => {
       await addToCart(product.id);
     }
     setAddedToCart(true);
+    setSnackbar({ open: true, message: `${product.name} added to cart`, severity: 'success' });
     setTimeout(() => setAddedToCart(false), 3000);
   };
 
   const handleWishlist = () => {
-    setWishlisted(!wishlisted);
+    const newState = !wishlisted;
+    setWishlisted(newState);
+    setSnackbar({
+      open: true,
+      message: newState ? `${product.name} added to wishlist` : `${product.name} removed from wishlist`,
+      severity: newState ? 'success' : 'info',
+    });
   };
 
   if (loading) {
@@ -102,6 +111,22 @@ const ProductDetail = () => {
 
   return (
     <Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: '100%', borderRadius: 2 }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} sx={{ mb: 3 }}>
         <Link component="button" variant="body2" onClick={() => navigate('/products')} sx={{ color: '#64748b', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
           Products

@@ -9,6 +9,8 @@ import {
   Button,
   Box,
   IconButton,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import {
   Delete as DeleteIcon,
@@ -23,6 +25,7 @@ const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const { addToCart } = useCart();
   const navigate = useNavigate();
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
     const savedWishlist = localStorage.getItem('wishlist');
@@ -31,15 +34,17 @@ const Wishlist = () => {
     }
   }, []);
 
-  const removeFromWishlist = (productId) => {
+  const removeFromWishlist = (productId, productName) => {
     const updated = wishlistItems.filter((item) => item.id !== productId);
     setWishlistItems(updated);
     localStorage.setItem('wishlist', JSON.stringify(updated));
+    setSnackbar({ open: true, message: `${productName} removed from wishlist`, severity: 'info' });
   };
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (productId, productName) => {
     await addToCart(productId);
-    removeFromWishlist(productId);
+    removeFromWishlist(productId, productName);
+    setSnackbar({ open: true, message: `${productName} added to cart`, severity: 'success' });
   };
 
   if (wishlistItems.length === 0) {
@@ -85,6 +90,22 @@ const Wishlist = () => {
 
   return (
     <Box>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          variant="filled"
+          sx={{ width: '100%', borderRadius: 2 }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
       <Box sx={{ mb: 3.5 }}>
         <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
           Wishlist
@@ -128,7 +149,7 @@ const Wishlist = () => {
                     variant="contained"
                     size="small"
                     startIcon={<CartIcon sx={{ fontSize: 16 }} />}
-                    onClick={(e) => { e.stopPropagation(); handleAddToCart(item.id); }}
+                    onClick={(e) => { e.stopPropagation(); handleAddToCart(item.id, item.name); }}
                     fullWidth
                     sx={{ borderRadius: 2, fontWeight: 600, fontSize: '0.82rem' }}
                   >
@@ -136,7 +157,7 @@ const Wishlist = () => {
                   </Button>
                   <IconButton
                     color="error"
-                    onClick={(e) => { e.stopPropagation(); removeFromWishlist(item.id); }}
+                    onClick={(e) => { e.stopPropagation(); removeFromWishlist(item.id, item.name); }}
                     size="small"
                     sx={{ border: '1px solid #fecaca', borderRadius: 2, '&:hover': { bgcolor: '#fef2f2' } }}
                   >
