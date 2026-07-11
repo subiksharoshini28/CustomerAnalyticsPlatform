@@ -13,7 +13,7 @@ public static class ProductSeedCatalog
             Description = "Over-ear noise cancelling headphones with deep bass and all-day battery life.",
             Price = 7999.00m,
             Category = "Electronics",
-            ImageUrl = "/images/headphones.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
             StockQuantity = 100,
             IsActive = true
         },
@@ -24,7 +24,7 @@ public static class ProductSeedCatalog
             Description = "A fitness-focused smartwatch with heart-rate tracking, GPS, and call alerts.",
             Price = 12999.00m,
             Category = "Electronics",
-            ImageUrl = "/images/smartwatch.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
             StockQuantity = 75,
             IsActive = true
         },
@@ -35,7 +35,7 @@ public static class ProductSeedCatalog
             Description = "Soft everyday cotton tee made for comfort and easy styling.",
             Price = 999.00m,
             Category = "Clothing",
-            ImageUrl = "/images/tshirt.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
             StockQuantity = 200,
             IsActive = true
         },
@@ -46,7 +46,7 @@ public static class ProductSeedCatalog
             Description = "Lightweight cushioned running shoes built for long-distance comfort.",
             Price = 4499.00m,
             Category = "Sports",
-            ImageUrl = "/images/shoes.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
             StockQuantity = 50,
             IsActive = true
         },
@@ -57,7 +57,7 @@ public static class ProductSeedCatalog
             Description = "Compact drip coffee maker with programmable brew settings.",
             Price = 8999.00m,
             Category = "Home",
-            ImageUrl = "/images/coffee-maker.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=400&h=400&fit=crop",
             StockQuantity = 150,
             IsActive = true
         },
@@ -68,7 +68,7 @@ public static class ProductSeedCatalog
             Description = "Tactile wireless keyboard with RGB lighting and hot-swappable switches.",
             Price = 6499.00m,
             Category = "Electronics",
-            ImageUrl = "/images/keyboard.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=400&h=400&fit=crop",
             StockQuantity = 90,
             IsActive = true
         },
@@ -79,7 +79,7 @@ public static class ProductSeedCatalog
             Description = "Insulated bottle that keeps drinks cold or hot for hours.",
             Price = 1499.00m,
             Category = "Lifestyle",
-            ImageUrl = "/images/bottle.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
             StockQuantity = 250,
             IsActive = true
         },
@@ -90,7 +90,7 @@ public static class ProductSeedCatalog
             Description = "Pocket-friendly true wireless earbuds with crisp sound and ANC.",
             Price = 5999.00m,
             Category = "Electronics",
-            ImageUrl = "/images/earbuds.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=400&h=400&fit=crop",
             StockQuantity = 120,
             IsActive = true
         },
@@ -101,7 +101,7 @@ public static class ProductSeedCatalog
             Description = "Durable water-resistant backpack with padded laptop storage.",
             Price = 3499.00m,
             Category = "Accessories",
-            ImageUrl = "/images/backpack.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
             StockQuantity = 140,
             IsActive = true
         },
@@ -112,7 +112,7 @@ public static class ProductSeedCatalog
             Description = "Voice-enabled speaker for music, routines, and smart home control.",
             Price = 9999.00m,
             Category = "Electronics",
-            ImageUrl = "/images/speaker.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1543512214-318c7553f230?w=400&h=400&fit=crop",
             StockQuantity = 60,
             IsActive = true
         },
@@ -123,7 +123,7 @@ public static class ProductSeedCatalog
             Description = "Hydrating skincare set with vitamin C, hyaluronic acid, and niacinamide.",
             Price = 2299.00m,
             Category = "Beauty",
-            ImageUrl = "/images/serum.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=400&h=400&fit=crop",
             StockQuantity = 180,
             IsActive = true
         },
@@ -134,7 +134,7 @@ public static class ProductSeedCatalog
             Description = "Classic fit denim jacket for casual layering across seasons.",
             Price = 2999.00m,
             Category = "Clothing",
-            ImageUrl = "/images/jacket.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400&h=400&fit=crop",
             StockQuantity = 80,
             IsActive = true
         },
@@ -145,7 +145,7 @@ public static class ProductSeedCatalog
             Description = "High-precision gaming mouse with customizable buttons and RGB lighting.",
             Price = 2799.00m,
             Category = "Electronics",
-            ImageUrl = "/images/mouse.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1527814050087-3793815479db?w=400&h=400&fit=crop",
             StockQuantity = 110,
             IsActive = true
         },
@@ -156,7 +156,7 @@ public static class ProductSeedCatalog
             Description = "Minimal LED desk lamp with adjustable brightness and warm light modes.",
             Price = 1899.00m,
             Category = "Home",
-            ImageUrl = "/images/lamp.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=400&h=400&fit=crop",
             StockQuantity = 95,
             IsActive = true
         },
@@ -167,7 +167,7 @@ public static class ProductSeedCatalog
             Description = "Non-slip eco-friendly yoga mat for workouts, stretching, and meditation.",
             Price = 1599.00m,
             Category = "Sports",
-            ImageUrl = "/images/yoga-mat.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400&h=400&fit=crop",
             StockQuantity = 160,
             IsActive = true
         },
@@ -178,7 +178,7 @@ public static class ProductSeedCatalog
             Description = "Portable tripod with adjustable height for photos, reels, and video calls.",
             Price = 2499.00m,
             Category = "Accessories",
-            ImageUrl = "/images/tripod.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=400&fit=crop",
             StockQuantity = 130,
             IsActive = true
         },
@@ -189,7 +189,7 @@ public static class ProductSeedCatalog
             Description = "A curated set of bestselling novels for your reading shelf.",
             Price = 1899.00m,
             Category = "Books",
-            ImageUrl = "/images/books.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop",
             StockQuantity = 70,
             IsActive = true
         },
@@ -200,7 +200,7 @@ public static class ProductSeedCatalog
             Description = "Healthy snack pack with oats, nuts, and extra protein.",
             Price = 699.00m,
             Category = "Grocery",
-            ImageUrl = "/images/granola.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1517093728432-a0440f8d45af?w=400&h=400&fit=crop",
             StockQuantity = 300,
             IsActive = true
         },
@@ -211,7 +211,7 @@ public static class ProductSeedCatalog
             Description = "Premium notebooks and pens for work, study, and planning.",
             Price = 1299.00m,
             Category = "Office",
-            ImageUrl = "/images/notebook.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=400&h=400&fit=crop",
             StockQuantity = 140,
             IsActive = true
         },
@@ -222,7 +222,7 @@ public static class ProductSeedCatalog
             Description = "Elegant ceramic plates and bowls for everyday dining.",
             Price = 3999.00m,
             Category = "Home",
-            ImageUrl = "/images/dishes.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1603199506016-5d549032bb74?w=400&h=400&fit=crop",
             StockQuantity = 85,
             IsActive = true
         },
@@ -233,7 +233,7 @@ public static class ProductSeedCatalog
             Description = "Daily skincare routine with cleanser, toner, and moisturizer.",
             Price = 2599.00m,
             Category = "Beauty",
-            ImageUrl = "/images/skincare.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop",
             StockQuantity = 180,
             IsActive = true
         },
@@ -244,7 +244,7 @@ public static class ProductSeedCatalog
             Description = "Full-grain leather belt with a polished metal buckle.",
             Price = 1499.00m,
             Category = "Clothing",
-            ImageUrl = "/images/belt.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
             StockQuantity = 120,
             IsActive = true
         },
@@ -255,7 +255,7 @@ public static class ProductSeedCatalog
             Description = "Soft memory-foam neck pillow for flights and long road trips.",
             Price = 1199.00m,
             Category = "Lifestyle",
-            ImageUrl = "/images/pillow.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1629198688000-71f23e745b6e?w=400&h=400&fit=crop",
             StockQuantity = 150,
             IsActive = true
         },
@@ -266,7 +266,7 @@ public static class ProductSeedCatalog
             Description = "Colorful building block set for creative play and learning.",
             Price = 1799.00m,
             Category = "Toys",
-            ImageUrl = "/images/blocks.svg",
+            ImageUrl = "https://images.unsplash.com/photo-1587654780291-39c9404d7dd0?w=400&h=400&fit=crop",
             StockQuantity = 200,
             IsActive = true
         }

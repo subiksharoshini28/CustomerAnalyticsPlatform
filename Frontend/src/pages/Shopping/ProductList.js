@@ -17,11 +17,17 @@ import {
   Chip,
   Skeleton,
   InputAdornment,
+  Paper,
 } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import {
+  Search as SearchIcon,
+  ShoppingCart as CartIcon,
+  ViewModule as GridIcon,
+} from '@mui/icons-material';
 import { productsAPI } from '../../services/api';
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';
+import { getProductImage, handleImageError } from '../../utils/productImages';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -50,7 +56,6 @@ const ProductList = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, [filters]);
 
@@ -63,12 +68,10 @@ const ProductList = () => {
         console.error('Failed to fetch categories:', error);
       }
     };
-
     fetchCategories();
   }, []);
 
   const handleSearch = (e) => {
-    e.preventDefault();
     setFilters((prev) => ({ ...prev, searchTerm: e.target.value }));
   };
 
@@ -76,65 +79,83 @@ const ProductList = () => {
     setFilters((prev) => ({ ...prev, category: e.target.value }));
   };
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (productId, e) => {
+    e.stopPropagation();
     await addToCart(productId);
   };
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        Products
-      </Typography>
+      <Box sx={{ mb: 3.5 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
+          Products
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b' }}>
+          Browse our curated collection of quality products
+        </Typography>
+      </Box>
 
       {/* Filters */}
-      <Grid container spacing={2} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            placeholder="Search products..."
-            value={filters.searchTerm}
-            onChange={handleSearch}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
+      <Paper elevation={0} sx={{ p: 2.5, mb: 3, border: '1px solid #e2e8f0', background: '#fff' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              placeholder="Search products..."
+              value={filters.searchTerm}
+              onChange={handleSearch}
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: '#94a3b8', fontSize: 20 }} />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Category</InputLabel>
+              <Select
+                value={filters.category}
+                label="Category"
+                onChange={handleCategoryChange}
+                sx={{ borderRadius: 2 }}
+              >
+                <MenuItem value="">All Categories</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category} value={category}>{category}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="body2" sx={{ color: '#64748b' }}>
+                {loading ? 'Loading...' : `${products.length} products`}
+              </Typography>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <FormControl fullWidth>
-            <InputLabel>Category</InputLabel>
-            <Select
-              value={filters.category}
-              label="Category"
-              onChange={handleCategoryChange}
-            >
-              <MenuItem value="">All Categories</MenuItem>
-              {categories.map((category) => (
-                <MenuItem key={category} value={category}>
-                  {category}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-      </Grid>
+      </Paper>
 
       {/* Product Grid */}
-      <Grid container spacing={3}>
+      <Grid container spacing={2.5}>
         {loading ? (
           Array.from({ length: 6 }).map((_, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Skeleton variant="rounded" height={350} />
+              <Skeleton variant="rounded" height={360} sx={{ borderRadius: 3 }} />
             </Grid>
           ))
         ) : products.length === 0 ? (
           <Grid item xs={12}>
-            <Typography align="center" color="text.secondary" sx={{ py: 4 }}>
-              No products found
-            </Typography>
+            <Box sx={{ textAlign: 'center', py: 8 }}>
+              <GridIcon sx={{ fontSize: 56, color: '#cbd5e1', mb: 2 }} />
+              <Typography variant="h6" sx={{ color: '#64748b', mb: 1 }}>No products found</Typography>
+              <Typography variant="body2" sx={{ color: '#94a3b8' }}>Try adjusting your search or filter criteria</Typography>
+            </Box>
           </Grid>
         ) : (
           products.map((product) => (
@@ -145,49 +166,68 @@ const ProductList = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   cursor: 'pointer',
-                  '&:hover': {
-                    boxShadow: 6,
-                  },
                 }}
                 onClick={() => navigate(`/products/${product.id}`)}
               >
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={product.imageUrl || '/images/product-placeholder.svg'}
-                  alt={product.name}
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = '/images/product-placeholder.svg';
-                  }}
-                  sx={{ objectFit: 'contain', p: 2 }}
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h6" component="h2">
+                <Box sx={{ position: 'relative', bgcolor: '#f8fafc', p: 2 }}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={getProductImage(product.id, product.imageUrl)}
+                    alt={product.name}
+                    onError={(e) => handleImageError(e, product.id)}
+                    sx={{ objectFit: 'contain', borderRadius: 2 }}
+                  />
+                  {!product.isInStock && (
+                    <Chip
+                      label="Out of Stock"
+                      size="small"
+                      sx={{
+                        position: 'absolute',
+                        top: 12,
+                        left: 12,
+                        bgcolor: '#fef2f2',
+                        color: '#dc2626',
+                        fontWeight: 600,
+                        fontSize: '0.7rem',
+                      }}
+                    />
+                  )}
+                </Box>
+                <CardContent sx={{ flexGrow: 1, p: 2.5, pt: 2 }}>
+                  <Chip
+                    label={product.category}
+                    size="small"
+                    sx={{ mb: 1, bgcolor: '#f1f5f9', color: '#475569', fontSize: '0.7rem', height: 22, fontWeight: 500 }}
+                  />
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="h2"
+                    sx={{ fontWeight: 600, fontSize: '0.95rem', lineHeight: 1.3, mb: 0.5, color: '#0f172a' }}
+                  >
                     {product.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                    {product.description?.substring(0, 100)}...
+                  <Typography variant="body2" sx={{ color: '#64748b', mb: 1.5, fontSize: '0.8rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {product.description}
                   </Typography>
-                  <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-                    <Chip label={product.category} size="small" />
-                    {!product.isInStock && (
-                      <Chip label="Out of Stock" color="error" size="small" />
-                    )}
-                  </Box>
-                  <Typography variant="h6" color="primary">
+                  <Typography variant="h6" sx={{ fontWeight: 700, color: '#2563eb' }}>
                     {formatINR(product.price)}
                   </Typography>
                 </CardContent>
-                <CardActions sx={{ p: 2, pt: 0 }}>
+                <CardActions sx={{ p: 2.5, pt: 0 }}>
                   <Button
                     size="small"
                     variant="contained"
                     fullWidth
                     disabled={!product.isInStock}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product.id);
+                    startIcon={<CartIcon sx={{ fontSize: 18 }} />}
+                    onClick={(e) => handleAddToCart(product.id, e)}
+                    sx={{
+                      borderRadius: 2,
+                      py: 1,
+                      fontWeight: 600,
+                      fontSize: '0.82rem',
                     }}
                   >
                     Add to Cart

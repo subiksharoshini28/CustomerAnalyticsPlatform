@@ -16,6 +16,7 @@ import {
 import { dashboardAPI } from '../../services/api';
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';
+import { getProductImage, handleImageError } from '../../utils/productImages';
 
 const Recommendations = () => {
   const [recommendations, setRecommendations] = useState([]);
@@ -85,12 +86,9 @@ const Recommendations = () => {
               <CardMedia
                 component="img"
                 height="200"
-                image={rec.imageUrl || '/images/product-placeholder.svg'}
+                image={getProductImage(rec.productId, rec.imageUrl)}
                 alt={rec.productName}
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = '/images/product-placeholder.svg';
-                }}
+                onError={(e) => handleImageError(e, rec.productId)}
                 sx={{ objectFit: 'contain', p: 2, cursor: 'pointer' }}
                 onClick={() => navigate(`/products/${rec.productId}`)}
               />

@@ -9,7 +9,17 @@ import {
   CircularProgress,
   Box,
   Grid,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
+import {
+  Visibility,
+  VisibilityOff,
+  Email as EmailIcon,
+  Lock as LockIcon,
+  Person as PersonIcon,
+  Phone as PhoneIcon,
+} from '@mui/icons-material';
 import { useAuth } from '../../context/AuthContext';
 
 const Register = () => {
@@ -23,14 +33,12 @@ const Register = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -43,28 +51,30 @@ const Register = () => {
     }
 
     setLoading(true);
-
     const { confirmPassword, ...registerData } = formData;
-    console.log('Register Payload', registerData);
     const result = await register(registerData);
-    
+
     if (result.success) {
       navigate('/dashboard');
     } else {
       setError(result.message);
     }
-    
     setLoading(false);
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-      <Typography variant="h5" sx={{ mb: 3, textAlign: 'center' }}>
-        Create Account
-      </Typography>
+      <Box sx={{ textAlign: 'center', mb: 3 }}>
+        <Typography variant="h4" sx={{ fontWeight: 800, color: '#0f172a', mb: 0.5 }}>
+          Create Account
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b' }}>
+          Join us and start your analytics journey
+        </Typography>
+      </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={{ mb: 2.5, borderRadius: 2 }}>
           {error}
         </Alert>
       )}
@@ -78,6 +88,13 @@ const Register = () => {
             value={formData.firstName}
             onChange={handleChange}
             required
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <PersonIcon sx={{ color: '#94a3b8', fontSize: 20 }} />
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -101,6 +118,13 @@ const Register = () => {
         onChange={handleChange}
         required
         sx={{ mt: 2 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <EmailIcon sx={{ color: '#94a3b8', fontSize: 20 }} />
+            </InputAdornment>
+          ),
+        }}
       />
 
       <TextField
@@ -110,17 +134,38 @@ const Register = () => {
         value={formData.phoneNumber}
         onChange={handleChange}
         sx={{ mt: 2 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <PhoneIcon sx={{ color: '#94a3b8', fontSize: 20 }} />
+            </InputAdornment>
+          ),
+        }}
       />
 
       <TextField
         fullWidth
         label="Password"
         name="password"
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         value={formData.password}
         onChange={handleChange}
         required
         sx={{ mt: 2 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <LockIcon sx={{ color: '#94a3b8', fontSize: 20 }} />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" size="small">
+                {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
 
       <TextField
@@ -132,6 +177,13 @@ const Register = () => {
         onChange={handleChange}
         required
         sx={{ mt: 2, mb: 3 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <LockIcon sx={{ color: '#94a3b8', fontSize: 20 }} />
+            </InputAdornment>
+          ),
+        }}
       />
 
       <Button
@@ -140,14 +192,28 @@ const Register = () => {
         variant="contained"
         size="large"
         disabled={loading}
-        sx={{ mb: 2 }}
+        sx={{
+          mb: 2.5,
+          py: 1.5,
+          fontSize: '0.95rem',
+          fontWeight: 600,
+          background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
+          '&:hover': {
+            background: 'linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%)',
+            boxShadow: '0 4px 15px rgba(37, 99, 235, 0.4)',
+          },
+        }}
       >
-        {loading ? <CircularProgress size={24} /> : 'Sign Up'}
+        {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Create Account'}
       </Button>
 
-      <Typography variant="body2" align="center">
+      <Typography variant="body2" align="center" sx={{ color: '#64748b' }}>
         Already have an account?{' '}
-        <Link component={RouterLink} to="/login">
+        <Link
+          component={RouterLink}
+          to="/login"
+          sx={{ fontWeight: 600, color: '#2563eb', textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+        >
           Sign In
         </Link>
       </Typography>

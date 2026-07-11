@@ -11,20 +11,33 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  FormLabel,
   Divider,
   Alert,
   CircularProgress,
+  Stepper,
+  Step,
+  StepLabel,
+  Avatar,
 } from '@mui/material';
+import {
+  LocalShipping as ShippingIcon,
+  Payment as PaymentIcon,
+  CheckCircle as CheckIcon,
+  CreditCard as CardIcon,
+  AccountBalance as BankIcon,
+} from '@mui/icons-material';
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';
 import { ordersAPI } from '../../services/api';
+
+const steps = ['Shipping', 'Payment', 'Review'];
 
 const Checkout = () => {
   const { cart } = useCart();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [activeStep] = useState(0);
   const [formData, setFormData] = useState({
     shippingAddress: '',
     city: '',
@@ -35,10 +48,7 @@ const Checkout = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -53,7 +63,6 @@ const Checkout = () => {
         paymentMethod: formData.paymentMethod,
         promoCode: formData.promoCode || null,
       });
-
       navigate(`/order-confirmation/${response.data.orderNumber}`);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create order');
@@ -68,19 +77,49 @@ const Checkout = () => {
   }
 
   const subtotal = cart.totalAmount;
-  const shipping = 99;
+  const shipping = 0;
   const tax = subtotal * 0.08;
   const discount = formData.promoCode === 'SAVE10' ? subtotal * 0.1 : 0;
   const total = subtotal + shipping + tax - discount;
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        Checkout
-      </Typography>
+      <Box sx={{ mb: 3.5 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
+          Checkout
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b' }}>
+          Complete your order in a few simple steps
+        </Typography>
+      </Box>
+
+      <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 4 }}>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel
+              StepIconComponent={({ active, completed }) => (
+                <Avatar
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    bgcolor: completed ? '#10b981' : active ? '#2563eb' : '#e2e8f0',
+                    color: completed || active ? '#fff' : '#94a3b8',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                  }}
+                >
+                  {completed ? <CheckIcon sx={{ fontSize: 18 }} /> : label[0]}
+                </Avatar>
+              )}
+            >
+              {label}
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={{ mb: 2.5, borderRadius: 2 }}>
           {error}
         </Alert>
       )}
@@ -88,10 +127,14 @@ const Checkout = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Paper sx={{ p: 3, mb: 3 }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Shipping Address
-              </Typography>
+            {/* Shipping */}
+            <Paper elevation={0} sx={{ p: 3, mb: 3, border: '1px solid #e2e8f0', borderRadius: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2.5 }}>
+                <Avatar sx={{ width: 36, height: 36, bgcolor: '#eff6ff', color: '#2563eb' }}>
+                  <ShippingIcon fontSize="small" />
+                </Avatar>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>Shipping Address</Typography>
+              </Box>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -101,6 +144,8 @@ const Checkout = () => {
                     value={formData.shippingAddress}
                     onChange={handleChange}
                     required
+                    size="small"
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -111,6 +156,8 @@ const Checkout = () => {
                     value={formData.city}
                     onChange={handleChange}
                     required
+                    size="small"
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -121,6 +168,8 @@ const Checkout = () => {
                     value={formData.state}
                     onChange={handleChange}
                     required
+                    size="small"
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -131,86 +180,108 @@ const Checkout = () => {
                     value={formData.zipCode}
                     onChange={handleChange}
                     required
+                    size="small"
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
                   />
                 </Grid>
               </Grid>
             </Paper>
 
-            <Paper sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Payment Method
-              </Typography>
+            {/* Payment */}
+            <Paper elevation={0} sx={{ p: 3, border: '1px solid #e2e8f0', borderRadius: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2.5 }}>
+                <Avatar sx={{ width: 36, height: 36, bgcolor: '#f5f3ff', color: '#7c3aed' }}>
+                  <PaymentIcon fontSize="small" />
+                </Avatar>
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>Payment Method</Typography>
+              </Box>
               <FormControl>
-                <FormLabel>Select Payment Method</FormLabel>
                 <RadioGroup
                   name="paymentMethod"
                   value={formData.paymentMethod}
                   onChange={handleChange}
                 >
-                  <FormControlLabel
-                    value="credit_card"
-                    control={<Radio />}
-                    label="Credit Card"
-                  />
-                  <FormControlLabel
-                    value="debit_card"
-                    control={<Radio />}
-                    label="Debit Card"
-                  />
-                  <FormControlLabel
-                    value="paypal"
-                    control={<Radio />}
-                    label="PayPal"
-                  />
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                    {[
+                      { value: 'credit_card', label: 'Credit Card', icon: <CardIcon />, desc: 'Pay with Visa, Mastercard, or Amex' },
+                      { value: 'debit_card', label: 'Debit Card', icon: <CardIcon />, desc: 'Pay directly from your bank account' },
+                      { value: 'paypal', label: 'PayPal', icon: <BankIcon />, desc: 'Pay securely with PayPal' },
+                    ].map((option) => (
+                      <Box
+                        key={option.value}
+                        sx={{
+                          p: 2,
+                          border: formData.paymentMethod === option.value ? '2px solid #2563eb' : '1px solid #e2e8f0',
+                          borderRadius: 2,
+                          cursor: 'pointer',
+                          bgcolor: formData.paymentMethod === option.value ? '#f8fafc' : 'transparent',
+                          transition: 'all 0.2s',
+                          '&:hover': { borderColor: '#2563eb' },
+                        }}
+                        onClick={() => setFormData({ ...formData, paymentMethod: option.value })}
+                      >
+                        <FormControlLabel
+                          value={option.value}
+                          control={<Radio size="small" />}
+                          label={
+                            <Box>
+                              <Typography variant="body2" sx={{ fontWeight: 600 }}>{option.label}</Typography>
+                              <Typography variant="caption" sx={{ color: '#64748b' }}>{option.desc}</Typography>
+                            </Box>
+                          }
+                          sx={{ m: 0 }}
+                        />
+                      </Box>
+                    ))}
+                  </Box>
                 </RadioGroup>
               </FormControl>
             </Paper>
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <Paper sx={{ p: 3 }}>
-              <Typography variant="h6" sx={{ mb: 2 }}>
+            <Paper elevation={0} sx={{ p: 3, border: '1px solid #e2e8f0', borderRadius: 3, position: 'sticky', top: 80 }}>
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 2.5 }}>
                 Order Summary
               </Typography>
-              <Divider sx={{ mb: 2 }} />
 
               {cart.items.map((item) => (
-                <Box key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2">
-                    {item.productName} x {item.quantity}
+                <Box key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
+                  <Typography variant="body2" sx={{ color: '#475569', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', mr: 1 }}>
+                    {item.productName} × {item.quantity}
                   </Typography>
-                  <Typography variant="body2">
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     {formatINR(item.totalPrice)}
                   </Typography>
                 </Box>
               ))}
 
-              <Divider sx={{ my: 2 }} />
+              <Divider sx={{ my: 2, borderColor: '#f1f5f9' }} />
 
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Subtotal</Typography>
-                <Typography>{formatINR(subtotal)}</Typography>
+                <Typography variant="body2" sx={{ color: '#64748b' }}>Subtotal</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>{formatINR(subtotal)}</Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Shipping</Typography>
-                <Typography>{formatINR(shipping)}</Typography>
+                <Typography variant="body2" sx={{ color: '#64748b' }}>Shipping</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600, color: '#10b981' }}>Free</Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography>Tax</Typography>
-                <Typography>{formatINR(tax)}</Typography>
+                <Typography variant="body2" sx={{ color: '#64748b' }}>Tax (8%)</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>{formatINR(tax)}</Typography>
               </Box>
               {discount > 0 && (
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography color="success.main">Discount</Typography>
-                  <Typography color="success.main">-{formatINR(discount)}</Typography>
+                  <Typography variant="body2" sx={{ color: '#10b981' }}>Discount (SAVE10)</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 600, color: '#10b981' }}>-{formatINR(discount)}</Typography>
                 </Box>
               )}
 
-              <Divider sx={{ my: 2 }} />
+              <Divider sx={{ my: 2, borderColor: '#f1f5f9' }} />
 
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-                <Typography variant="h6">Total</Typography>
-                <Typography variant="h6" color="primary">
+                <Typography variant="h6" sx={{ fontWeight: 700 }}>Total</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: '#2563eb' }}>
                   {formatINR(total)}
                 </Typography>
               </Box>
@@ -222,7 +293,8 @@ const Checkout = () => {
                 value={formData.promoCode}
                 onChange={handleChange}
                 placeholder="Enter SAVE10 for 10% off"
-                sx={{ mb: 2 }}
+                size="small"
+                sx={{ mb: 2, '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
               />
 
               <Button
@@ -231,8 +303,15 @@ const Checkout = () => {
                 fullWidth
                 size="large"
                 disabled={loading}
+                sx={{
+                  py: 1.5,
+                  fontWeight: 600,
+                  borderRadius: 2.5,
+                  background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+                  '&:hover': { background: 'linear-gradient(135deg, #1d4ed8, #6d28d9)' },
+                }}
               >
-                {loading ? <CircularProgress size={24} /> : 'Place Order'}
+                {loading ? <CircularProgress size={24} sx={{ color: '#fff' }} /> : 'Place Order'}
               </Button>
             </Paper>
           </Grid>

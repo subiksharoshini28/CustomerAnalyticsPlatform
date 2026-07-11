@@ -10,9 +10,14 @@ import {
   Box,
   IconButton,
 } from '@mui/material';
-import { Delete as DeleteIcon, ShoppingCart as CartIcon } from '@mui/icons-material';
+import {
+  Delete as DeleteIcon,
+  ShoppingCart as CartIcon,
+  FavoriteBorder as EmptyWishlistIcon,
+} from '@mui/icons-material';
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';
+import { getProductImage, handleImageError } from '../../utils/productImages';
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -20,7 +25,6 @@ const Wishlist = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load wishlist from localStorage
     const savedWishlist = localStorage.getItem('wishlist');
     if (savedWishlist) {
       setWishlistItems(JSON.parse(savedWishlist));
@@ -40,14 +44,38 @@ const Wishlist = () => {
 
   if (wishlistItems.length === 0) {
     return (
-      <Box sx={{ textAlign: 'center', py: 4 }}>
-        <Typography variant="h5" gutterBottom>
+      <Box sx={{ textAlign: 'center', py: 8 }}>
+        <Box
+          sx={{
+            width: 80,
+            height: 80,
+            borderRadius: '50%',
+            bgcolor: '#fef2f2',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            mx: 'auto',
+            mb: 3,
+          }}
+        >
+          <EmptyWishlistIcon sx={{ fontSize: 40, color: '#fca5a5' }} />
+        </Box>
+        <Typography variant="h5" sx={{ fontWeight: 700, color: '#0f172a', mb: 1 }}>
           Your wishlist is empty
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
+          Save your favorite products here for later.
         </Typography>
         <Button
           variant="contained"
           onClick={() => navigate('/products')}
-          sx={{ mt: 2 }}
+          sx={{
+            px: 4,
+            py: 1.25,
+            borderRadius: 2.5,
+            fontWeight: 600,
+            background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+          }}
         >
           Browse Products
         </Button>
@@ -57,52 +85,62 @@ const Wishlist = () => {
 
   return (
     <Box>
-      <Typography variant="h4" sx={{ mb: 3 }}>
-        Wishlist ({wishlistItems.length} items)
-      </Typography>
+      <Box sx={{ mb: 3.5 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#0f172a', mb: 0.5 }}>
+          Wishlist
+        </Typography>
+        <Typography variant="body2" sx={{ color: '#64748b' }}>
+          {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} saved
+        </Typography>
+      </Box>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={2.5}>
         {wishlistItems.map((item) => (
           <Grid item xs={12} sm={6} md={4} key={item.id}>
-            <Card>
-              <CardMedia
-                component="img"
-                height="200"
-                image={item.imageUrl || '/images/product-placeholder.svg'}
-                alt={item.name}
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = '/images/product-placeholder.svg';
-                }}
-                sx={{ objectFit: 'contain', p: 2 }}
-                onClick={() => navigate(`/products/${item.id}`)}
-              />
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => navigate(`/products/${item.id}`)}
-                >
+            <Card
+              sx={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                cursor: 'pointer',
+              }}
+              onClick={() => navigate(`/products/${item.id}`)}
+            >
+              <Box sx={{ position: 'relative', bgcolor: '#f8fafc', p: 2 }}>
+                <CardMedia
+                  component="img"
+                  height="180"
+                  image={getProductImage(item.id, item.imageUrl)}
+                  alt={item.name}
+                  onError={(e) => handleImageError(e, item.id)}
+                  sx={{ objectFit: 'contain', borderRadius: 2 }}
+                />
+              </Box>
+              <CardContent sx={{ flexGrow: 1, p: 2.5, pt: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.95rem', color: '#0f172a', mb: 0.5 }}>
                   {item.name}
                 </Typography>
-                <Typography color="primary" sx={{ mb: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: '#2563eb', mb: 2 }}>
                   {formatINR(item.price)}
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   <Button
                     variant="contained"
                     size="small"
-                    startIcon={<CartIcon />}
-                    onClick={() => handleAddToCart(item.id)}
+                    startIcon={<CartIcon sx={{ fontSize: 16 }} />}
+                    onClick={(e) => { e.stopPropagation(); handleAddToCart(item.id); }}
                     fullWidth
+                    sx={{ borderRadius: 2, fontWeight: 600, fontSize: '0.82rem' }}
                   >
                     Add to Cart
                   </Button>
                   <IconButton
                     color="error"
-                    onClick={() => removeFromWishlist(item.id)}
+                    onClick={(e) => { e.stopPropagation(); removeFromWishlist(item.id); }}
+                    size="small"
+                    sx={{ border: '1px solid #fecaca', borderRadius: 2, '&:hover': { bgcolor: '#fef2f2' } }}
                   >
-                    <DeleteIcon />
+                    <DeleteIcon fontSize="small" />
                   </IconButton>
                 </Box>
               </CardContent>
