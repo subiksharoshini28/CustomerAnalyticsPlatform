@@ -152,6 +152,7 @@ using (var scope = app.Services.CreateScope())
     await SeedProductCatalogAsync(db);
     await SeedAdminUserAsync(db);
     await SeedCustomerUsersAsync(db);
+    await SeedOrdersAsync(db);
 }
 
 app.Run();
@@ -237,5 +238,80 @@ static async Task SeedCustomerUsersAsync(AnalyticsDbContext db)
     }
 
     db.Customers.AddRange(customers);
+    await db.SaveChangesAsync();
+
+    var today = DateTime.UtcNow.Date;
+    var todayUsers = new[] { "priyasharma002@gmail.com", "ananyapatel@gmail.com", "meeranair@gmail.com", "nehamishra@gmail.com", "karthikramesh@gmail.com", "rahulverma@gmail.com", "kavyaiyer@gmail.com" };
+    foreach (var email in todayUsers)
+    {
+        var c = await db.Customers.FirstAsync(c => c.Email == email);
+        c.LastLoginAt = today.AddHours(new Random().Next(6, 20));
+    }
+    await db.SaveChangesAsync();
+}
+
+static async Task SeedOrdersAsync(AnalyticsDbContext db)
+{
+    if (await db.Orders.AnyAsync()) return;
+
+    var products = await db.Products.ToListAsync();
+    if (products.Count == 0) return;
+    var rnd = new Random(42);
+    var statuses = new[] { "Delivered", "Delivered", "Delivered", "Shipped", "Pending" };
+    var payments = new[] { "Credit Card", "UPI", "Debit Card", "Cash on Delivery", "UPI" };
+    var customers = await db.Customers.Where(c => c.Role == "Customer").ToListAsync();
+    var orders = new List<Order>();
+    int orderNum = 1000;
+
+    foreach (var customer in customers)
+    {
+        var orderCount = rnd.Next(2, 7);
+        for (int i = 0; i < orderCount; i++)
+        {
+            var itemCount = rnd.Next(1, 4);
+            var selectedProducts = products.OrderBy(x => rnd.Next()).Take(itemCount).ToList();
+            var total = selectedProducts.Sum(p => p.Price * rnd.Next(1, 3));
+            var tax = Math.Round(total * 0.18m, 2);
+
+            var orderDate = DateTime.UtcNow.AddDays(-rnd.Next(1, 180));
+            var order = new Order
+            {
+                CustomerId = customer.Id,
+                OrderNumber = $"ORD-{++orderNum}",
+                TotalAmount = total + tax,
+                Tax = tax,
+                ShippingCost = total > 500 ? 0 : 49,
+                Discount = 0,
+                Status = statuses[rnd.Next(statuses.Length)],
+                PaymentMethod = payments[rnd.Next(payments.Length)],
+                ShippingAddress = "123 Main St, Mumbai, India",
+                OrderDate = orderDate,
+                ShippedDate = orderDate.AddDays(1),
+                DeliveredDate = orderDate.AddDays(3),
+            };
+            orders.Add(order);
+        }
+    }
+
+    db.Orders.AddRange(orders);
+    await db.SaveChangesAsync();
+
+    foreach (var order in orders)
+    {
+        var selectedProducts = products.OrderBy(x => rnd.Next()).Take(rnd.Next(1, 4)).ToList();
+        foreach (var product in selectedProducts)
+        {
+            var qty = rnd.Next(1, 3);
+            order.Items.Add(new OrderItem
+            {
+                OrderId = order.Id,
+                ProductId = product.Id,
+                Quantity = qty,
+                UnitPrice = product.Price,
+                TotalPrice = product.Price * qty
+            });
+        }
+    }
+
     await db.SaveChangesAsync();
 }
