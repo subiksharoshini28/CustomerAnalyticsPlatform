@@ -20,6 +20,7 @@ import {
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';
 import { getProductImage, handleImageError } from '../../utils/productImages';
+import { getWishlist, setWishlist } from '../../utils/wishlistStorage';
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -28,16 +29,13 @@ const Wishlist = () => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   useEffect(() => {
-    const savedWishlist = localStorage.getItem('wishlist');
-    if (savedWishlist) {
-      setWishlistItems(JSON.parse(savedWishlist));
-    }
+    setWishlistItems(getWishlist());
   }, []);
 
   const removeFromWishlist = (productId, productName) => {
     const updated = wishlistItems.filter((item) => item.id !== productId);
     setWishlistItems(updated);
-    localStorage.setItem('wishlist', JSON.stringify(updated));
+    setWishlist(updated);
     setSnackbar({ open: true, message: `${productName} removed from wishlist`, severity: 'info' });
   };
 

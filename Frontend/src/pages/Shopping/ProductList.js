@@ -33,6 +33,7 @@ import { productsAPI } from '../../services/api';
 import { useCart } from '../../context/CartContext';
 import { formatINR } from '../../utils/currency';
 import { getProductImage, handleImageError } from '../../utils/productImages';
+import { getWishlist, setWishlist } from '../../utils/wishlistStorage';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -76,9 +77,7 @@ const ProductList = () => {
     fetchCategories();
   }, []);
 
-  const [wishlist, setWishlist] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('wishlist')) || []; } catch { return []; }
-  });
+  const [wishlist, setWishlistState] = useState(() => getWishlist());
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const toggleWishlist = (product, e) => {
@@ -92,8 +91,8 @@ const ProductList = () => {
       updated = [...wishlist, { id: product.id, name: product.name, price: product.price, imageUrl: getProductImage(product.id, product.imageUrl) }];
       setSnackbar({ open: true, message: `${product.name} added to wishlist`, severity: 'success' });
     }
+    setWishlistState(updated);
     setWishlist(updated);
-    localStorage.setItem('wishlist', JSON.stringify(updated));
   };
 
   const isWishlisted = (id) => wishlist.some((w) => w.id === id);

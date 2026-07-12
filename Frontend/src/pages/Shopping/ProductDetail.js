@@ -37,6 +37,7 @@ import { useCart } from '../../context/CartContext';
 import { eventsAPI } from '../../services/api';
 import { formatINR } from '../../utils/currency';
 import { getProductImage, handleImageError } from '../../utils/productImages';
+import { getWishlist, setWishlist } from '../../utils/wishlistStorage';
 
 const productReviews = [
   { id: 1, name: 'Priya Sharma', rating: 5, date: '2026-06-15', title: 'Excellent quality!', comment: 'Really impressed with the build quality and performance. Would definitely recommend to anyone looking for a reliable product.', helpful: 24, avatar: 'PS' },
@@ -77,6 +78,13 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+  useEffect(() => {
+    if (product) {
+      const wishlist = getWishlist();
+      setWishlisted(wishlist.some((w) => w.id === product.id));
+    }
+  }, [product]);
+
   const handleAddToCart = async () => {
     for (let i = 0; i < quantity; i++) {
       await addToCart(product.id);
@@ -89,6 +97,14 @@ const ProductDetail = () => {
   const handleWishlist = () => {
     const newState = !wishlisted;
     setWishlisted(newState);
+    const current = getWishlist();
+    let updated;
+    if (newState) {
+      updated = [...current, { id: product.id, name: product.name, price: product.price, imageUrl: getProductImage(product.id, product.imageUrl) }];
+    } else {
+      updated = current.filter((w) => w.id !== product.id);
+    }
+    setWishlist(updated);
     setSnackbar({
       open: true,
       message: newState ? `${product.name} added to wishlist` : `${product.name} removed from wishlist`,
