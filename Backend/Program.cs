@@ -147,7 +147,8 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AnalyticsDbContext>();
-    db.Database.EnsureCreated();
+    await db.Database.EnsureDeletedAsync();
+    await db.Database.EnsureCreatedAsync();
     await SeedProductCatalogAsync(db);
     await SeedAdminUserAsync(db);
     await SeedCustomerUsersAsync(db);
