@@ -153,6 +153,8 @@ using (var scope = app.Services.CreateScope())
     await SeedAdminUserAsync(db);
     await SeedCustomerUsersAsync(db);
     await SeedOrdersAsync(db);
+    await SeedInteractionsAsync(db);
+    await SeedSessionsAsync(db);
 }
 
 app.Run();
@@ -313,5 +315,123 @@ static async Task SeedOrdersAsync(AnalyticsDbContext db)
         }
     }
 
+    await db.SaveChangesAsync();
+}
+
+static async Task SeedInteractionsAsync(AnalyticsDbContext db)
+{
+    if (await db.CustomerInteractions.AnyAsync()) return;
+
+    var customers = await db.Customers.Where(c => c.Role == "Customer").ToListAsync();
+    var products = await db.Products.ToListAsync();
+    var rnd = new Random(99);
+    var channels = new[] { "Website", "Mobile App", "Email", "Social Media", "Google Ads" };
+    var devices = new[] { "Desktop", "Mobile", "Tablet" };
+    var browsers = new[] { "Chrome", "Safari", "Firefox", "Edge" };
+    var locations = new[] { "Mumbai, India", "Delhi, India", "Bangalore, India", "Chennai, India", "Hyderabad, India", "Pune, India", "Kolkata, India" };
+    var interactions = new List<CustomerInteraction>();
+
+    foreach (var customer in customers)
+    {
+        var visitCount = rnd.Next(15, 40);
+        for (int i = 0; i < visitCount; i++)
+        {
+            var ts = DateTime.UtcNow.AddDays(-rnd.Next(0, 90)).AddHours(-rnd.Next(0, 24));
+            var channel = channels[rnd.Next(channels.Length)];
+            var device = devices[rnd.Next(devices.Length)];
+            var browser = browsers[rnd.Next(browsers.Length)];
+            var location = locations[rnd.Next(locations.Length)];
+            var sessionId = $"sess_{customer.Id}_{rnd.Next(1000, 9999)}";
+
+            interactions.Add(new CustomerInteraction
+            {
+                CustomerId = customer.Id, Channel = channel, Action = "Website Visit",
+                Timestamp = ts, Device = device, Browser = browser, Location = location, SessionId = sessionId
+            });
+
+            if (rnd.Next(100) < 65)
+            {
+                interactions.Add(new CustomerInteraction
+                {
+                    CustomerId = customer.Id, Channel = channel, Action = "Search Product",
+                    Timestamp = ts.AddMinutes(rnd.Next(1, 5)), Device = device, Browser = browser, Location = location, SessionId = sessionId
+                });
+            }
+
+            if (rnd.Next(100) < 50)
+            {
+                var prod = products[rnd.Next(products.Count)];
+                interactions.Add(new CustomerInteraction
+                {
+                    CustomerId = customer.Id, Channel = channel, Action = "View Product",
+                    Timestamp = ts.AddMinutes(rnd.Next(2, 8)), Device = device, Browser = browser, Location = location,
+                    ProductId = prod.Id, Metadata = prod.Name, SessionId = sessionId
+                });
+
+                if (rnd.Next(100) < 35)
+                {
+                    interactions.Add(new CustomerInteraction
+                    {
+                        CustomerId = customer.Id, Channel = channel, Action = "Add To Cart",
+                        Timestamp = ts.AddMinutes(rnd.Next(3, 10)), Device = device, Browser = browser, Location = location,
+                        ProductId = prod.Id, Metadata = prod.Name, SessionId = sessionId
+                    });
+
+                    if (rnd.Next(100) < 40)
+                    {
+                        interactions.Add(new CustomerInteraction
+                        {
+                            CustomerId = customer.Id, Channel = channel, Action = "Purchase",
+                            Timestamp = ts.AddMinutes(rnd.Next(5, 15)), Device = device, Browser = browser, Location = location,
+                            ProductId = prod.Id, Metadata = prod.Name, SessionId = sessionId
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    db.CustomerInteractions.AddRange(interactions);
+    await db.SaveChangesAsync();
+}
+
+static async Task SeedSessionsAsync(AnalyticsDbContext db)
+{
+    if (await db.UserSessions.AnyAsync()) return;
+
+    var customers = await db.Customers.Where(c => c.Role == "Customer").ToListAsync();
+    var rnd = new Random(77);
+    var sessions = new List<UserSession>();
+    var devices = new[] { "Desktop", "Mobile", "Tablet" };
+    var browsers = new[] { "Chrome", "Safari", "Firefox", "Edge" };
+    var ips = new[] { "192.168.1.", "10.0.0.", "172.16.0.", "192.168.0." };
+    var locs = new[] { "Mumbai, India", "Delhi, India", "Bangalore, India", "Chennai, India" };
+
+    foreach (var customer in customers)
+    {
+        var sessionCount = rnd.Next(5, 15);
+        for (int i = 0; i < sessionCount; i++)
+        {
+            var start = DateTime.UtcNow.AddDays(-rnd.Next(0, 90)).AddHours(-rnd.Next(0, 24));
+            var pagesViewed = rnd.Next(1, 12);
+            var isConverted = rnd.Next(100) < 30;
+
+            sessions.Add(new UserSession
+            {
+                CustomerId = customer.Id,
+                SessionId = $"sess_{customer.Id}_{rnd.Next(10000, 99999)}",
+                StartTime = start,
+                EndTime = start.AddMinutes(rnd.Next(2, 45)),
+                Device = devices[rnd.Next(devices.Length)],
+                Browser = browsers[rnd.Next(browsers.Length)],
+                IpAddress = ips[rnd.Next(ips.Length)] + rnd.Next(1, 255),
+                Location = locs[rnd.Next(locs.Length)],
+                PagesViewed = pagesViewed,
+                IsConverted = isConverted
+            });
+        }
+    }
+
+    db.UserSessions.AddRange(sessions);
     await db.SaveChangesAsync();
 }
