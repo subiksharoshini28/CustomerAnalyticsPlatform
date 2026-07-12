@@ -44,7 +44,8 @@ public class AuthService : IAuthService
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
             PhoneNumber = dto.PhoneNumber,
             CreatedAt = DateTime.UtcNow,
-            AcquisitionSource = "Direct"
+            AcquisitionSource = "Direct",
+            Role = "Customer"
         };
 
         await _customerRepository.CreateAsync(customer);
@@ -100,6 +101,7 @@ public class AuthService : IAuthService
             new Claim(ClaimTypes.Email, customer.Email),
             new Claim(ClaimTypes.GivenName, customer.FirstName),
             new Claim(ClaimTypes.Surname, customer.LastName),
+            new Claim(ClaimTypes.Role, customer.Role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -122,6 +124,7 @@ public class AuthService : IAuthService
             Email = customer.Email,
             FirstName = customer.FirstName,
             LastName = customer.LastName,
+            Role = customer.Role,
             PhoneNumber = customer.PhoneNumber,
             CreatedAt = customer.CreatedAt,
             LastLoginAt = customer.LastLoginAt

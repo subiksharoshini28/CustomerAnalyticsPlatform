@@ -33,7 +33,7 @@ const Login = () => {
     try {
       const result = await login(formData.email, formData.password);
       if (result.success) {
-        navigate('/dashboard');
+        navigate(result.user?.role === 'Admin' ? '/dashboard' : '/products');
       } else {
         setError(result.message);
       }

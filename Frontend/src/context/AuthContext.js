@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
       api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
       
-      return { success: true };
+      return { success: true, user: userData };
     } catch (error) {
       console.log(error);
       console.log(error.response);
@@ -87,6 +87,8 @@ export const AuthProvider = ({ children }) => {
     token,
     loading,
     isAuthenticated: !!user,
+    isAdmin: user?.role === 'Admin',
+    isCustomer: user?.role === 'Customer',
     login,
     register,
     logout

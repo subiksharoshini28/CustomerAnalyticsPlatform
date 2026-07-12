@@ -55,7 +55,7 @@ const Register = () => {
     try {
       const result = await register(registerData);
       if (result.success) {
-        navigate('/dashboard');
+        navigate('/products');
       } else {
         setError(result.message);
       }

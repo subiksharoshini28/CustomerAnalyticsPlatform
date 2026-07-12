@@ -189,6 +189,34 @@ const ProtectedRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
+const AdminRoute = ({ children }) => {
+  const { isAuthenticated, isAdmin, loading } = useAuth();
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!isAdmin) return <Navigate to="/products" />;
+  return children;
+};
+
+const CustomerRoute = ({ children }) => {
+  const { isAuthenticated, isAdmin, loading } = useAuth();
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (isAdmin) return <Navigate to="/dashboard" />;
+  return children;
+};
+
 const PublicRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) {
@@ -198,7 +226,7 @@ const PublicRoute = ({ children }) => {
       </Box>
     );
   }
-  return !isAuthenticated ? children : <Navigate to="/dashboard" />;
+  return !isAuthenticated ? children : <Navigate to="/products" />;
 };
 
 function App() {
@@ -229,22 +257,40 @@ function App() {
                   <MainLayout />
                 </ProtectedRoute>
               }>
-                <Route index element={<Navigate to="/dashboard" replace />} />
-                <Route path="dashboard" element={<Dashboard />} />
+                <Route index element={<Navigate to="/products" replace />} />
+                <Route path="dashboard" element={
+                  <AdminRoute><Dashboard /></AdminRoute>
+                } />
                 <Route path="products" element={<ProductList />} />
                 <Route path="products/:id" element={<ProductDetail />} />
-                <Route path="cart" element={<Cart />} />
-                <Route path="checkout" element={<Checkout />} />
-                <Route path="order-confirmation/:orderNumber" element={<OrderConfirmation />} />
-                <Route path="wishlist" element={<Wishlist />} />
+                <Route path="cart" element={
+                  <CustomerRoute><Cart /></CustomerRoute>
+                } />
+                <Route path="checkout" element={
+                  <CustomerRoute><Checkout /></CustomerRoute>
+                } />
+                <Route path="order-confirmation/:orderNumber" element={
+                  <CustomerRoute><OrderConfirmation /></CustomerRoute>
+                } />
+                <Route path="wishlist" element={
+                  <CustomerRoute><Wishlist /></CustomerRoute>
+                } />
                 <Route path="profile" element={<Profile />} />
-                <Route path="orders" element={<OrderHistory />} />
-                <Route path="analytics/journey" element={<CustomerJourney />} />
-                <Route path="analytics/churn" element={<ChurnPrediction />} />
-                <Route path="analytics/recommendations" element={<Recommendations />} />
+                <Route path="orders" element={
+                  <CustomerRoute><OrderHistory /></CustomerRoute>
+                } />
+                <Route path="analytics/journey" element={
+                  <AdminRoute><CustomerJourney /></AdminRoute>
+                } />
+                <Route path="analytics/churn" element={
+                  <AdminRoute><ChurnPrediction /></AdminRoute>
+                } />
+                <Route path="analytics/recommendations" element={
+                  <AdminRoute><Recommendations /></AdminRoute>
+                } />
               </Route>
 
-              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+              <Route path="*" element={<Navigate to="/products" replace />} />
             </Routes>
           </Router>
         </CartProvider>

@@ -9,6 +9,8 @@ using CustomerAnalytics.Api.Repositories;
 using CustomerAnalytics.Api.Azure;
 using CustomerAnalytics.Api.Middleware;
 using CustomerAnalytics.Api.Configuration;
+using CustomerAnalytics.Api.Models;
+using BCrypt.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -147,6 +149,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AnalyticsDbContext>();
     db.Database.EnsureCreated();
     await SeedProductCatalogAsync(db);
+    await SeedAdminUserAsync(db);
 }
 
 app.Run();
@@ -175,4 +178,31 @@ static async Task SeedProductCatalogAsync(AnalyticsDbContext db)
     }
 
     await db.SaveChangesAsync();
+}
+
+static async Task SeedAdminUserAsync(AnalyticsDbContext db)
+{
+    const string adminEmail = "admin@customeranalytics.com";
+    var existingAdmin = await db.Customers.FirstOrDefaultAsync(c => c.Email == adminEmail);
+    if (existingAdmin == null)
+    {
+        var admin = new Customer
+        {
+            Email = adminEmail,
+            FirstName = "Admin",
+            LastName = "User",
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+            Role = "Admin",
+            CreatedAt = DateTime.UtcNow,
+            IsActive = true,
+            AcquisitionSource = "System"
+        };
+        db.Customers.Add(admin);
+        await db.SaveChangesAsync();
+    }
+    else if (existingAdmin.Role != "Admin")
+    {
+        existingAdmin.Role = "Admin";
+        await db.SaveChangesAsync();
+    }
 }

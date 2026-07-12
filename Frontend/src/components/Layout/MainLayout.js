@@ -40,17 +40,23 @@ import { useCart } from '../../context/CartContext';
 
 const DRAWER_WIDTH = 260;
 
-const menuItems = [
+const adminMenuItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
+  { text: 'Products', icon: <ShoppingIcon />, path: '/products' },
+  { divider: true, label: 'Analytics' },
+  { text: 'Customer Journey', icon: <JourneyIcon />, path: '/analytics/journey' },
+  { text: 'Churn Prediction', icon: <ChurnIcon />, path: '/analytics/churn' },
+  { text: 'Recommendations', icon: <RecommendIcon />, path: '/analytics/recommendations' },
+  { divider: true, label: 'Account' },
+  { text: 'Profile', icon: <PersonIcon />, path: '/profile' },
+];
+
+const customerMenuItems = [
   { text: 'Products', icon: <ShoppingIcon />, path: '/products' },
   { text: 'Cart', icon: <CartIcon />, path: '/cart' },
   { text: 'Wishlist', icon: <WishlistIcon />, path: '/wishlist' },
   { text: 'Orders', icon: <OrdersIcon />, path: '/orders' },
   { text: 'Profile', icon: <PersonIcon />, path: '/profile' },
-  { divider: true, label: 'Analytics' },
-  { text: 'Customer Journey', icon: <JourneyIcon />, path: '/analytics/journey' },
-  { text: 'Churn Prediction', icon: <ChurnIcon />, path: '/analytics/churn' },
-  { text: 'Recommendations', icon: <RecommendIcon />, path: '/analytics/recommendations' },
 ];
 
 const MainLayout = () => {
@@ -60,8 +66,9 @@ const MainLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const { cart } = useCart();
+  const menuItems = isAdmin ? adminMenuItems : customerMenuItems;
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
@@ -203,11 +210,11 @@ const MainLayout = () => {
           <Box sx={{ flex: 1 }} />
 
           <Chip
-            label="Pro"
+            label={isAdmin ? 'Admin' : 'Customer'}
             size="small"
             sx={{
               mr: 1.5,
-              background: 'linear-gradient(135deg, #2563eb, #7c3aed)',
+              background: isAdmin ? 'linear-gradient(135deg, #e91e63, #f06292)' : 'linear-gradient(135deg, #2563eb, #7c3aed)',
               color: '#fff',
               fontWeight: 600,
               fontSize: '0.7rem',

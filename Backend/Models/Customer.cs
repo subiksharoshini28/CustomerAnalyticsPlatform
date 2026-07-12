@@ -34,6 +34,10 @@ public class Customer
 
     public bool IsActive { get; set; } = true;
 
+    [Required]
+    [MaxLength(20)]
+    public string Role { get; set; } = "Customer";
+
     [Column(TypeName = "decimal(18,2)")]
     public decimal TotalSpent { get; set; }
 
