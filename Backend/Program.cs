@@ -150,6 +150,7 @@ using (var scope = app.Services.CreateScope())
     db.Database.EnsureCreated();
     await SeedProductCatalogAsync(db);
     await SeedAdminUserAsync(db);
+    await SeedCustomerUsersAsync(db);
 }
 
 app.Run();
@@ -205,4 +206,35 @@ static async Task SeedAdminUserAsync(AnalyticsDbContext db)
         existingAdmin.Role = "Admin";
         await db.SaveChangesAsync();
     }
+}
+
+static async Task SeedCustomerUsersAsync(AnalyticsDbContext db)
+{
+    if (await db.Customers.AnyAsync(c => c.Role == "Customer"))
+        return;
+
+    var customers = new List<Customer>
+    {
+        new Customer { Email = "priyasharma002@gmail.com", FirstName = "Priya", LastName = "Sharma", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Priya@123"), Role = "Customer", PhoneNumber = "+91-9876543210", CreatedAt = new DateTime(2025, 1, 15, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Google Ads", TotalSpent = 12499m, TotalOrders = 5, Segment = "Premium", LifetimeValue = 12499m },
+        new Customer { Email = "rahulverma@gmail.com", FirstName = "Rahul", LastName = "Verma", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Rahul@123"), Role = "Customer", PhoneNumber = "+91-9876543211", CreatedAt = new DateTime(2025, 2, 20, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Facebook", TotalSpent = 8750m, TotalOrders = 3, Segment = "Regular", LifetimeValue = 8750m },
+        new Customer { Email = "ananyapatel@gmail.com", FirstName = "Ananya", LastName = "Patel", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Ananya@123"), Role = "Customer", PhoneNumber = "+91-9876543212", CreatedAt = new DateTime(2025, 3, 10, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Instagram", TotalSpent = 21300m, TotalOrders = 8, Segment = "VIP", LifetimeValue = 21300m },
+        new Customer { Email = "vikramsingh@gmail.com", FirstName = "Vikram", LastName = "Singh", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Vikram@123"), Role = "Customer", PhoneNumber = "+91-9876543213", CreatedAt = new DateTime(2025, 4, 5, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Direct", TotalSpent = 5200m, TotalOrders = 2, Segment = "New", LifetimeValue = 5200m },
+        new Customer { Email = "meeranair@gmail.com", FirstName = "Meera", LastName = "Nair", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Meera@123"), Role = "Customer", PhoneNumber = "+91-9876543214", CreatedAt = new DateTime(2025, 5, 18, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Google Ads", TotalSpent = 15800m, TotalOrders = 6, Segment = "Premium", LifetimeValue = 15800m },
+        new Customer { Email = "arjunreddy@gmail.com", FirstName = "Arjun", LastName = "Reddy", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Arjun@123"), Role = "Customer", PhoneNumber = "+91-9876543215", CreatedAt = new DateTime(2025, 6, 22, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Referral", TotalSpent = 3450m, TotalOrders = 1, Segment = "New", LifetimeValue = 3450m },
+        new Customer { Email = "kavyaiyer@gmail.com", FirstName = "Kavya", LastName = "Iyer", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Kavya@123"), Role = "Customer", PhoneNumber = "+91-9876543216", CreatedAt = new DateTime(2025, 7, 8, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Facebook", TotalSpent = 9900m, TotalOrders = 4, Segment = "Regular", LifetimeValue = 9900m },
+        new Customer { Email = "rohitgupta@gmail.com", FirstName = "Rohit", LastName = "Gupta", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Rohit@123"), Role = "Customer", PhoneNumber = "+91-9876543217", CreatedAt = new DateTime(2025, 8, 14, 0, 0, 0, DateTimeKind.Utc), IsActive = false, AcquisitionSource = "Instagram", TotalSpent = 2100m, TotalOrders = 1, Segment = "At Risk", LifetimeValue = 2100m, ChurnScore = 0.78m },
+        new Customer { Email = "nehamishra@gmail.com", FirstName = "Neha", LastName = "Mishra", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Neha@123"), Role = "Customer", PhoneNumber = "+91-9876543218", CreatedAt = new DateTime(2025, 9, 1, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Direct", TotalSpent = 18200m, TotalOrders = 7, Segment = "Premium", LifetimeValue = 18200m },
+        new Customer { Email = "amitkumar@gmail.com", FirstName = "Amit", LastName = "Kumar", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Amit@123"), Role = "Customer", PhoneNumber = "+91-9876543219", CreatedAt = new DateTime(2025, 10, 12, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Google Ads", TotalSpent = 6700m, TotalOrders = 3, Segment = "Regular", LifetimeValue = 6700m },
+        new Customer { Email = "sneha95@gmail.com", FirstName = "Sneha", LastName = "Das", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Sneha@123"), Role = "Customer", PhoneNumber = "+91-9876543220", CreatedAt = new DateTime(2025, 11, 3, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Referral", TotalSpent = 4300m, TotalOrders = 2, Segment = "New", LifetimeValue = 4300m },
+        new Customer { Email = "karthikramesh@gmail.com", FirstName = "Karthik", LastName = "Ramesh", PasswordHash = BCrypt.Net.BCrypt.HashPassword("Karthik@123"), Role = "Customer", PhoneNumber = "+91-9876543221", CreatedAt = new DateTime(2025, 12, 20, 0, 0, 0, DateTimeKind.Utc), IsActive = true, AcquisitionSource = "Facebook", TotalSpent = 11500m, TotalOrders = 5, Segment = "Premium", LifetimeValue = 11500m },
+    };
+
+    foreach (var c in customers)
+    {
+        c.LastLoginAt = c.CreatedAt.AddDays(new Random().Next(1, 30));
+        c.ChurnScore = c.IsActive ? Math.Round((decimal)new Random().Next(5, 40) / 100, 4) : 0.75m;
+    }
+
+    db.Customers.AddRange(customers);
+    await db.SaveChangesAsync();
 }
